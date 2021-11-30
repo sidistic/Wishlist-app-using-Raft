@@ -1,0 +1,63 @@
+// Users.json
+{
+    "vihaha": {
+        "username": "vihaha",
+        "name": "viha",
+        "password": "plain",
+        "follows": ["karanimal", "sidistic"]
+    },
+    "karanimal": {
+        "username": "karanimal",
+        "name": "karan",
+        "password": "plain",
+        "follows": ["vihaha", "sidistic"]
+    }
+    "sidistic": {
+        "username": "sidistic",
+        "name": "sid",
+        "password": "plain",
+    }
+}
+
+// Posts.json file
+{
+    "1": {
+        "title": "Vihas day in the sun",
+        "content": "I like ice cream but not today",
+        "author": "vihaha",
+        "timestamp": 123112312312
+    },
+    "2": {
+        "title": "Karans day in the sun",
+        "content": "I don't like ice cream except today",
+        "author": "karanimal",
+        "timestamp": 123112312123
+    }
+}
+
+
+// webpages
+1. login page
+2. signup page
+3. my feed page
+4. new post page
+5. all users page
+
+
+// services
+1. authentication
+2. newuser
+3. getfeed
+4. newpost
+5. getusers
+6. follow
+7. unfollow
+
+
+
+
+
+Get list of all users => Object.values(usersJsonObj).map((user) => ({
+    username: user.username,
+    name: user.name,
+})
