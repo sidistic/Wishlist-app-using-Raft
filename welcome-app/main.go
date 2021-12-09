@@ -72,6 +72,19 @@ func main() {
 		// Logic to verify entered username and password from users.json?
 	})	
 
+	// Signup Page
+	http.HandleFunc("/signup" , func(w http.ResponseWriter, r *http.Request) {
+
+		// Parse login.html
+		templates := template.Must(template.ParseFiles("templates/signup.html"))
+
+		//If errors show an internal server error message
+		//I also pass the welcome struct to the welcome-template.html file. 
+		if err := templates.ExecuteTemplate(w, "signup.html", welcome); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+	})	
+
 	//Start the web server, set the port to listen to 8080. Without a path it assumes localhost
 	//Print any errors from starting the webserver using fmt
 	fmt.Println(http.ListenAndServe(":8080", nil));
