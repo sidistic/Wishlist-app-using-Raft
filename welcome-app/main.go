@@ -21,7 +21,7 @@ func main() {
 
 	//We tell Go exactly where we can find our html file. We ask Go to parse the html file (Notice
 	// the relative path). We wrap it in a call to template.Must() which handles any errors 
-  // and halts if there are fatal errors
+	// and halts if there are fatal errors
 
 
 
@@ -46,6 +46,7 @@ func main() {
 		if name := r.FormValue("name"); name != "" {
 			welcome.Name = name;
 		}
+
 		//If errors show an internal server error message
 		//I also pass the welcome struct to the welcome-template.html file. 
 		if err := templates.ExecuteTemplate(w, "welcome-template.html", welcome); err != nil {
@@ -53,8 +54,10 @@ func main() {
 		}
 	})
 
+	// Login Page
 	http.HandleFunc("/login" , func(w http.ResponseWriter, r *http.Request) {
 
+		// Parse login.html
 		templates := template.Must(template.ParseFiles("templates/login.html"))
 
 		//If errors show an internal server error message
@@ -62,6 +65,11 @@ func main() {
 		if err := templates.ExecuteTemplate(w, "login.html", welcome); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
+	})	
+
+	http.HandleFunc("/verify-login" , func(w http.ResponseWriter, r *http.Request) {
+
+		// Logic to verify entered username and password from users.json?
 	})	
 
 	//Start the web server, set the port to listen to 8080. Without a path it assumes localhost
