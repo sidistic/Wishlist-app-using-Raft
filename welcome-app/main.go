@@ -29,9 +29,9 @@ func main() {
 	// a handle that looks in the static directory, go then uses the "/static/" as a url that our
 	//html can refer to when looking for our css and other files.
 
-	// http.Handle("/myPath/", //final url can be anything
-	// 	http.StripPrefix("/static/",
-	// 		http.FileServer(http.Dir("static")))) //Go looks in the relative static directory first, then matches it to a
+	http.Handle("/static/", //final url can be anything
+		http.StripPrefix("/static/",
+			http.FileServer(http.Dir("static")))) //Go looks in the relative static directory first, then matches it to a
 	// 		//url of our choice as shown in http.Handle("/static/"). 
     //   //This url is what we need when referencing our css files
 	// 		//once the server begins. Our html code would therefore be <link rel="stylesheet"  href="/static/stylesheet/...">
