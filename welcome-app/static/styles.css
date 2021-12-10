@@ -88,23 +88,16 @@ img.avatar {
 
 .feedcontainer {
     padding: 16px;
-    background-color: lightgrey;
-    width: 300px;
-    border: 5px solid black;
+    border: 5px solid lightgrey;
     margin: 20px;
 }
 
-/* .title {
+.title {
+    font-size: 20px;
+
 
 }
 
-.author {
-
-}
-
-.description {
-
-} */
 
 span.psw {
   float: right;

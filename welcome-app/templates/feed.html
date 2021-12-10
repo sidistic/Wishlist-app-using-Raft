@@ -9,10 +9,11 @@
 <body>
 
     <div class="topnav">
-        <a href="/template/welcome.html">Home</a>
-        <a class="active" href="/template/login.html">Login</a>
-        <a href="/template/signup.html">Sign-Up</a>
-        <a href="#about">About</a>
+        <a href="/welcome">Home</a>
+        <a href="/login">Login</a>
+        <a href="/signup">Sign Up</a>
+        <a class="active" href="/feed">Feed</a>
+        <a href="/users">Users</a>
     </div>    
 
     <h2>My Feed</h2> 
@@ -42,21 +43,28 @@
         posts.forEach(post => {
 
             var parentElement = document.createElement('div')
-            var att = document.createAttribute("class");
-            att.value = "feedcontainer"; 
-            parentElement.setAttributeNode(att);
+            var parentAtt = document.createAttribute("class");
+            parentAtt.value = "feedcontainer"; 
+            parentElement.setAttributeNode(parentAtt);
 
             titleElement = document.createElement('div');
+            var titleAtt = document.createAttribute("class");
+            titleAtt.value = "title"; 
+            titleElement.setAttributeNode(titleAtt);
+
             authorElement = document.createElement('div');
             descriptionElement = document.createElement('div');
+            timestampElement = document.createElement('div');
 
-            titleElement.innerHTML = post.title;
-            authorElement.innerHTML = post.author;
-            descriptionElement.innerHTML = post.description;
+            titleElement.innerHTML = "Title: " + post.title;
+            authorElement.innerHTML = "Author: " + post.author;
+            descriptionElement.innerHTML = "Description: " + post.description;
+            timestampElement.innerHTML = "Timestamp: " + post.timestamp;
 
             parentElement.appendChild(titleElement);
             parentElement.appendChild(authorElement);
             parentElement.appendChild(descriptionElement);
+            parentElement.appendChild(timestampElement);
 
             var feedContainer = document.getElementById("feed-container");
             feedContainer.appendChild(parentElement)

@@ -38,7 +38,7 @@ func main() {
 	// 		//It is important to note the final url can be whatever we like, so long as we are consistent.
 
 	//This method takes in the URL path "/" and a function that takes in a response writer, and a http request.
-	http.HandleFunc("/" , func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/welcome" , func(w http.ResponseWriter, r *http.Request) {
 
 		templates := template.Must(template.ParseFiles("templates/welcome.html"))
 
