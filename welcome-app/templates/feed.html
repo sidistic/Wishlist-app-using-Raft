@@ -18,6 +18,21 @@
 
     <h2>My Feed</h2> 
 
+    <form action="/add-post" method="post" style="border: none;">
+
+        <div class="feedcontainer">
+            <label for="title"><b>Title</b></label>
+            <input type="text" name="title" required>
+    
+            <label for="description"><b>Description</b></label>
+            <textarea id="description" name="description" rows="4" cols="50" required></textarea>
+                
+            <button type="submit">Add Post</button>
+            
+        </div>
+    
+        </form>
+
     <div id = "feed-container">
 
     </div>

@@ -1,3 +1,10 @@
+# Instructions
+
+## To Run
+
+    go run main.go
+
+
 # Distributed Finaly Project Course Materials
 
 ## Protobuf Generator
