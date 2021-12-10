@@ -103,7 +103,9 @@ img.avatar {
 }
 
 .user {
-    float: left;
+    padding: 16px;
+    border: 5px solid lightgrey;
+    margin: 20px;
 }
 
 .followbtn {

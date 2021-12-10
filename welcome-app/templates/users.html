@@ -26,37 +26,44 @@
 </body>
 
 <script>
-    function fetchPosts(){
+    function fetchUsers(){
 
         fetch('/api/users')
             .then(response => response.json()) //parsing response object to text => needs to be json
             // .then(data => console.log(data))
-            .then(posts => renderPosts(posts));
+            .then(users => renderUsers(users));
 
         return false
     }
 
-    fetchPosts()
+    fetchUsers()
 
-    function renderPosts(posts){
+    function renderUsers(users){
 
-        posts.forEach(post => {
+        users.forEach(user => {
 
-            var parentElement = document.createElement('div')
-            var parentAtt = document.createAttribute("class");
+            parentElement = document.createElement('div')
+            parentAtt = document.createAttribute("class");
             parentAtt.value = "usercontainer"; 
             parentElement.setAttributeNode(parentAtt);
 
             usernameElement = document.createElement('div');
-            nameElement = document.createElement('div');
+            // usernameAtt = document.createAttribute("class");
+            // usernameAtt.value = "user"; 
+            // parentElement.setAttributeNode(usernameAtt);
 
-            usernameElement.innerHTML = "Username: " + post.username;
-            nameElement.innerHTML = "Name: " + post.name;
+            nameElement = document.createElement('div');
+            followElement = document.createElement('button');
+
+            usernameElement.innerHTML = "Username: " + user.username;
+            nameElement.innerHTML = "Name: " + user.name;
+            followElement.innerHTML = "Follow";
 
             parentElement.appendChild(usernameElement);
             parentElement.appendChild(nameElement);
+            parentElement.appendChild(followElement);
 
-            var feedContainer = document.getElementById("user-container");
+            feedContainer = document.getElementById("user-container");
             feedContainer.appendChild(parentElement)
 
         });
