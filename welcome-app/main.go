@@ -67,6 +67,19 @@ func main() {
 		}
 	})	
 
+	// Login Page
+	http.HandleFunc("/api/feed" , func(w http.ResponseWriter, r *http.Request) {
+
+		// Parse login.html
+		templates := template.Must(template.ParseFiles("data/posts.json"))
+
+		//If errors show an internal server error message
+		//I also pass the welcome struct to the welcome-template.html file. 
+		if err := templates.ExecuteTemplate(w, "posts.json", welcome); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+	})		
+
 	http.HandleFunc("/verify-login" , func(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("here")
 		fmt.Println(r.ParseForm())
@@ -82,6 +95,19 @@ func main() {
 		//If errors show an internal server error message
 		//I also pass the welcome struct to the welcome-template.html file. 
 		if err := templates.ExecuteTemplate(w, "signup.html", welcome); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+	})	
+
+	// Signup Page
+	http.HandleFunc("/feed" , func(w http.ResponseWriter, r *http.Request) {
+
+		// Parse login.html
+		templates := template.Must(template.ParseFiles("templates/feed.html"))
+
+		//If errors show an internal server error message
+		//I also pass the welcome struct to the welcome-template.html file. 
+		if err := templates.ExecuteTemplate(w, "feed.html", welcome); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 	})	

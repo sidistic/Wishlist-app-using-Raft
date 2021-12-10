@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+
+
+</head>
+<body>
+
+    <div class="topnav">
+        <a href="/template/welcome.html">Home</a>
+        <a class="active" href="/template/login.html">Login</a>
+        <a href="/template/signup.html">Sign-Up</a>
+        <a href="#about">About</a>
+    </div>    
+
+    <h2>My Feed</h2> 
+
+    <div id = "feed-container">
+
+    </div>
+
+
+</body>
+
+<script>
+    function fetchPosts(){
+
+        fetch('/api/feed')
+            .then(response => response.json()) //parsing response object to text => needs to be json
+            // .then(data => console.log(data))
+            .then(posts => renderPosts(posts));
+
+        return false
+    }
+
+    fetchPosts()
+
+    function renderPosts(posts){
+
+        posts.forEach(post => {
+
+            var parentElement = document.createElement('div')
+            var att = document.createAttribute("class");
+            att.value = "feedcontainer"; 
+            parentElement.setAttributeNode(att);
+
+            titleElement = document.createElement('div');
+            authorElement = document.createElement('div');
+            descriptionElement = document.createElement('div');
+
+            titleElement.innerHTML = post.title;
+            authorElement.innerHTML = post.author;
+            descriptionElement.innerHTML = post.description;
+
+            parentElement.appendChild(titleElement);
+            parentElement.appendChild(authorElement);
+            parentElement.appendChild(descriptionElement);
+
+            var feedContainer = document.getElementById("feed-container");
+            feedContainer.appendChild(parentElement)
+
+        });
+
+
+    }
+</script>
+
+</html>
