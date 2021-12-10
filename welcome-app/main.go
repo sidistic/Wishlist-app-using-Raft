@@ -11,19 +11,22 @@ import (
 
 //Create a struct that holds information to be displayed in our HTML file
 type CurrUser struct {
-	Name string
+	Username string
 }
 
 type Users struct {
-    Users []User 
-}
-
-type User struct {
     Username   string 
     Name   string 
     Password    string    
     Follows  []string
 }
+
+// type User struct {
+//     Username   string 
+//     Name   string 
+//     Password    string    
+//     Follows  []string
+// }
 
 //Go application entrypoint
 func main() {
@@ -57,13 +60,11 @@ func main() {
 
 
 	http.HandleFunc("/verify-login" , func(w http.ResponseWriter, r *http.Request) {
-		// Logic to verify entered username and password from users.json?
-		fmt.Println("enter verify-login")
 
 		r.ParseForm()
-		for key, value := range r.Form {
-			fmt.Printf("%s = %s\n", key, value)
-		}
+
+		var ip_username = r.Form["username"][0]
+		var ip_password = r.Form["password"][0]
 
 		// Open our jsonFile
 		jsonFile, err := os.Open("data/users.json")
@@ -81,28 +82,29 @@ func main() {
 		byteValue, _ := ioutil.ReadAll(jsonFile)
 
 		// we initialize our Users array
-		var users Users
+		var users []Users
 
 		// we unmarshal our byteArray which contains our
 		// jsonFile's content into 'users' which we defined above
 		json.Unmarshal(byteValue, &users)
 
+		for _, b := range users {
+			// fmt.Println(b.Username)
+			// fmt.Println(b.Password)
+			if b.Username == ip_username && b.Password == ip_password {
+				// validate = true
+				fmt.Println("Validated Successfully!")
+			}
+		}
 
-		// we iterate through every user within our users array and
-		// print out the user Type, their name, and their facebook url
-		// as just an example
+		fmt.Println(ip_username)
+		fmt.Println(ip_password)
 
-		fmt.Println(len(users.Users))
-		// fmt.Println(len(Users))
+		curruser := CurrUser{ip_username}
 
-		for i := 0; i < len(users.Users); i++ {
-			fmt.Println("Username: " + users.Users[i].Username)
-			fmt.Println("Name: " + users.Users[i].Name)
-			fmt.Println("Password: " + users.Users[i].Password)
-			// fmt.Println("Follows: " + users.Users[i].[].Follows)
-		}		
+		fmt.Println(curruser)
 
-		fmt.Println("end")
+		// need to re route to /feed
 
 	})	
 

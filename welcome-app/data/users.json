@@ -2,19 +2,19 @@
     {
         "username": "vihaha",
         "name": "viha",
-        "password": "plain",
+        "password": "v",
         "follows": ["karanimal", "sidistic"]
     },
     {
         "username": "karanimal",
         "name": "karan",
-        "password": "plain",
+        "password": "v",
         "follows": ["vihaha", "sidistic"]
     },
     {
         "username": "sidistic",
         "name": "sid",
-        "password": "plain",
+        "password": "v",
         "follows": []
     }
 ]
