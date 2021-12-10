@@ -3,20 +3,18 @@ package main
 import (
 	"net/http"
 	"fmt"
-	"time"
 	"html/template"
 )
 
 //Create a struct that holds information to be displayed in our HTML file
-type Welcome struct {
+type User struct {
 	Name string
-	Time string
 }
 
 //Go application entrypoint
 func main() {
 
-	welcome := Welcome{"Viha", time.Now().Format(time.Stamp)}
+	user := User{"Guest"}
 
 
 	http.Handle("/static/",
@@ -28,7 +26,7 @@ func main() {
 
 		templates := template.Must(template.ParseFiles("templates/welcome.html"))
 
-		if err := templates.ExecuteTemplate(w, "welcome.html", welcome); err != nil {
+		if err := templates.ExecuteTemplate(w, "welcome.html", user); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 	})
@@ -38,7 +36,7 @@ func main() {
 
 		templates := template.Must(template.ParseFiles("templates/login.html"))
 
-		if err := templates.ExecuteTemplate(w, "login.html", welcome); err != nil {
+		if err := templates.ExecuteTemplate(w, "login.html", user); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 	})	
@@ -55,7 +53,7 @@ func main() {
 
 		templates := template.Must(template.ParseFiles("templates/signup.html"))
 
-		if err := templates.ExecuteTemplate(w, "signup.html", welcome); err != nil {
+		if err := templates.ExecuteTemplate(w, "signup.html", user); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 	})	
@@ -65,7 +63,7 @@ func main() {
 
 		templates := template.Must(template.ParseFiles("templates/feed.html"))
 
-		if err := templates.ExecuteTemplate(w, "feed.html", welcome); err != nil {
+		if err := templates.ExecuteTemplate(w, "feed.html", user); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 	})	
@@ -74,7 +72,7 @@ func main() {
 
 		templates := template.Must(template.ParseFiles("data/posts.json"))
  
-		if err := templates.ExecuteTemplate(w, "posts.json", welcome); err != nil {
+		if err := templates.ExecuteTemplate(w, "posts.json", user); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 	})
@@ -83,7 +81,7 @@ func main() {
 
 		templates := template.Must(template.ParseFiles("templates/users.html"))
 
-		if err := templates.ExecuteTemplate(w, "users.html", welcome); err != nil {
+		if err := templates.ExecuteTemplate(w, "users.html", user); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 	})	
@@ -92,7 +90,7 @@ func main() {
 
 		templates := template.Must(template.ParseFiles("data/users.json"))
  
-		if err := templates.ExecuteTemplate(w, "users.json", welcome); err != nil {
+		if err := templates.ExecuteTemplate(w, "users.json", user); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 	})
