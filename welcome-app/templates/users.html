@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+
+
+</head>
+<body>
+
+    <div class="topnav">
+        <a href="/welcome">Home</a>
+        <a href="/login">Login</a>
+        <a href="/signup">Sign Up</a>
+        <a href="/feed">Feed</a>
+        <a class="active" href="/users">Users</a>
+    </div>    
+
+    <h2>Users</h2> 
+
+    <div id = "user-container">
+
+    </div>
+
+
+</body>
+
+<script>
+    function fetchPosts(){
+
+        fetch('/api/users')
+            .then(response => response.json()) //parsing response object to text => needs to be json
+            // .then(data => console.log(data))
+            .then(posts => renderPosts(posts));
+
+        return false
+    }
+
+    fetchPosts()
+
+    function renderPosts(posts){
+
+        posts.forEach(post => {
+
+            var parentElement = document.createElement('div')
+            var parentAtt = document.createAttribute("class");
+            parentAtt.value = "usercontainer"; 
+            parentElement.setAttributeNode(parentAtt);
+
+            usernameElement = document.createElement('div');
+            nameElement = document.createElement('div');
+
+            usernameElement.innerHTML = "Username: " + post.username;
+            nameElement.innerHTML = "Name: " + post.name;
+
+            parentElement.appendChild(usernameElement);
+            parentElement.appendChild(nameElement);
+
+            var feedContainer = document.getElementById("user-container");
+            feedContainer.appendChild(parentElement)
+
+        });
+
+
+    }
+</script>
+
+</html>

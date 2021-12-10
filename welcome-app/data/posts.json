@@ -1,16 +1,23 @@
 [
     {
         "post_id": 1,
-        "title": "Robovacuum",
-        "author": "vihahaha",
-        "description": "a splendid vacuum",
-        "timestamp": "72834492"
+        "title": "FitBit",
+        "author": "sidistic",
+        "description": "gonna get fit!",
+        "timestamp": "72834491"
     },
     {
         "post_id": 2,
+        "title": "Robovacuum",
+        "author": "vihahaha",
+        "description": "a splendid vacuum for my house",
+        "timestamp": "72834492"
+    },
+    {
+        "post_id": 3,
         "title": "iPad Mini",
         "author": "karanimal",
-        "description": "silver",
+        "description": "i want the silver one",
         "timestamp": "72834493"
     }
 ]

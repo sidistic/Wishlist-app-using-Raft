@@ -94,8 +94,20 @@ img.avatar {
 
 .title {
     font-size: 20px;
+}
 
+.usercontainer {
+    padding: 16px;
+    border: 5px solid lightgrey;
+    margin: 20px;
+}
 
+.user {
+    float: left;
+}
+
+.followbtn {
+    float: right;
 }
 
 
