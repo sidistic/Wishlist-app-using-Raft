@@ -19,6 +19,30 @@
 }
 
 
+{
+    "users": [
+        {
+            "username": "vihaha",
+            "name": "viha",
+            "password": "plain",
+            "follows": ["karanimal", "sidistic"]
+        },
+        {
+            "username": "karanimal",
+            "name": "karan",
+            "password": "plain",
+            "follows": ["vihaha", "sidistic"]
+        },
+        {
+            "username": "sidistic",
+            "name": "sid",
+            "password": "plain",
+            "follows": []
+        }
+    ]
+}
+
+
 // webpages
 1. login page
 2. signup page
