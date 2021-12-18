@@ -163,5 +163,20 @@ func main() {
 		}
 	})
 
+	http.HandleFunc("/signout", func(w http.ResponseWriter, r *http.Request) {
+
+		// Reset user to guest
+		curruser.Username = "Guest"
+
+		// Redirect to homepage
+		templates := template.Must(template.ParseFiles("templates/welcome.html"))
+
+		if err := templates.ExecuteTemplate(w, "welcome.html", curruser); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+
+
+	})
+
 	fmt.Println(http.ListenAndServe(":8080", nil))
 }
