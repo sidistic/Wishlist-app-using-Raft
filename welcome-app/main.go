@@ -18,7 +18,6 @@ type CurrUser struct {
 	Username string
 }
 
-
 //Go application entrypoint
 func main() {
 
@@ -111,17 +110,15 @@ func main() {
 		currposts = []feed.Post{}
 		log.Println(curruser)
 		log.Println(response)
-		for i,_ := range response.Postid {
+		for i, _ := range response.Postid {
 			currposts = append(currposts, feed.Post{
-				PostID: int(response.Postid[i]),
-				Title: response.Title[i],
-				Author: response.Author[i],
+				PostID:      int(response.Postid[i]),
+				Title:       response.Title[i],
+				Author:      response.Author[i],
 				Description: response.Description[i],
-				Timestamp: response.Timestamp[i],
+				Timestamp:   response.Timestamp[i],
 			})
 		}
-
-
 
 		// for _, p := range response.FeedData {
 		// 	posts = append(posts, feed.Posts{
@@ -133,9 +130,7 @@ func main() {
 		// }
 		// log.Println(response.postid)
 
-
 		templates := template.Must(template.ParseFiles("templates/feed.html"))
-
 		if err := templates.ExecuteTemplate(w, "feed.html", currposts); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
