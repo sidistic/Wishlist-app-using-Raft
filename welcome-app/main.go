@@ -18,18 +18,17 @@ type CurrUser struct {
 	Username string
 }
 
-// type User struct {
-//     Username   string
-//     Name   string
-//     Password    string
-//     Follows  []string
-// }
 
 //Go application entrypoint
 func main() {
 
 	curruser := CurrUser{"vihaha"}
+<<<<<<< HEAD
 	posts := []feed.Posts{}
+=======
+	// myposts := Post{5, "test", "test", "test", "test"}
+	currposts := []feed.Post{}
+>>>>>>> 3a2f6e363a311bd25d3c9e8461caa2c7058be103
 
 	http.Handle("/static/",
 		http.StripPrefix("/static/",
@@ -77,9 +76,9 @@ func main() {
 
 		if response.Done {
 			curruser.Username = response.Name
-			templates := template.Must(template.ParseFiles("templates/feed.html"))
+			templates := template.Must(template.ParseFiles("templates/welcome.html"))
 
-			if err := templates.ExecuteTemplate(w, "feed.html", curruser); err != nil {
+			if err := templates.ExecuteTemplate(w, "welcome.html", curruser); err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 			}
 		} else {
@@ -114,8 +113,21 @@ func main() {
 		if err != nil {
 			log.Fatalf("Error when calling GetFeed: %s", err)
 		}
-		// posts = []feed.Posts{}
+		currposts = []feed.Post{}
+		log.Println(curruser)
 		log.Println(response)
+		for i,_ := range response.Postid {
+			currposts = append(currposts, feed.Post{
+				PostID: int(response.Postid[i]),
+				Title: response.Title[i],
+				Author: response.Author[i],
+				Description: response.Description[i],
+				Timestamp: response.Timestamp[i],
+			})
+		}
+
+
+
 		// for _, p := range response.FeedData {
 		// 	posts = append(posts, feed.Posts{
 		// 		PostID:      int(p.Postid),
@@ -124,10 +136,16 @@ func main() {
 		// 		Description: p.Description,
 		// 		Timestamp:   p.Timestamp})
 		// }
+		// log.Println(response.postid)
+
 
 		templates := template.Must(template.ParseFiles("templates/feed.html"))
 
+<<<<<<< HEAD
 		if err := templates.ExecuteTemplate(w, "feed.html", curruser, posts); err != nil {
+=======
+		if err := templates.ExecuteTemplate(w, "feed.html", currposts); err != nil {
+>>>>>>> 3a2f6e363a311bd25d3c9e8461caa2c7058be103
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 
