@@ -118,3 +118,40 @@ func (s *Server) GetFeed(ctx context.Context, in *FeedRequest) (*FeedResponse, e
 		Description: filterPostDescription,
 		Timestamp:   filterPostTimestamps}, nil
 }
+func (s *Server) PostToServer(ctx context.Context, in *PostData) (*PostDataResponse, error) {
+	jsonFile, err := os.Open("data/posts.json")
+
+	// if we os.Open returns an error then handle it
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println("Successfully Opened posts.json")
+
+	// defer the closing of our jsonFile so that we can parse it later on
+
+	// read our opened jsonFile as a byte array.
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+
+	// we initialize our Users array
+	var posts []Post
+	// we unmarshal our byteArray which contains our
+	// jsonFile's content into 'users' which we defined above
+	json.Unmarshal(byteValue, &posts)
+	jsonFile.Close()
+	posts = append(posts, Post{
+		PostID:      in.Postid,
+		Title:       in.Title,
+		Author:      in.Author,
+		Description: in.Description,
+		Timestamp:   in.Timestamp,
+	})
+	byteValue, err = json.Marshal(posts)
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = ioutil.WriteFile("data/posts.json", byteValue, 0644)
+	if err != nil {
+		log.Fatalf("failed to write to file on server: %v", err)
+	}
+	return &PostDataResponse{Success: true}, nil
+}
