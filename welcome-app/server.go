@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"welcome-app/feed"
 	"welcome-app/login"
 
 	"google.golang.org/grpc"
@@ -16,13 +17,14 @@ func main() {
 	}
 
 	l := login.Server{}
+	f := feed.Server{}
+	Server := grpc.NewServer()
+	// fServer := grpc.NewServer()
 
-	lServer := grpc.NewServer()
+	login.RegisterAuthServiceServer(Server, &l)
+	feed.RegisterFeedServiceServer(Server, &f)
 
-	login.RegisterAuthServiceServer(lServer, &l)
-
-	if err := lServer.Serve(lis); err != nil {
+	if err := Server.Serve(lis); err != nil {
 		log.Fatalf("failed to serve for login: %s", err)
 	}
-
 }

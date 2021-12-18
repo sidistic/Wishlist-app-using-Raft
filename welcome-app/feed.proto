@@ -8,17 +8,13 @@ message FeedRequest{
     string username = 1;
 }
 
-message Post{
-    int32 postid = 1;
-    string title = 2;
-    string author = 3;
-    string description = 4;
-    string timestamp = 5;
-
-}
-
 message FeedResponse{
-    repeated Post feedData =1;
+    repeated int32 postid = 1;
+    repeated string title = 2;
+    repeated string author = 3;
+    repeated string description = 4;
+    repeated string timestamp = 5;
+
 }
 
 service FeedService{

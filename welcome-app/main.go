@@ -27,8 +27,8 @@ type CurrUser struct {
 //Go application entrypoint
 func main() {
 
-	curruser := CurrUser{"Guest"}
-	posts := []feed.Posts{}
+	curruser := CurrUser{"vihaha"}
+	// posts := []feed.Posts{}
 
 	http.Handle("/static/",
 		http.StripPrefix("/static/",
@@ -113,16 +113,16 @@ func main() {
 		if err != nil {
 			log.Fatalf("Error when calling GetFeed: %s", err)
 		}
-		posts = []feed.Posts{}
-		log.Println(response.FeedData)
-		for _, p := range response.FeedData {
-			posts = append(posts, feed.Posts{
-				PostID:      int(p.Postid),
-				Title:       p.Title,
-				Author:      p.Author,
-				Description: p.Description,
-				Timestamp:   p.Timestamp})
-		}
+		// posts = []feed.Posts{}
+		log.Println(response)
+		// for _, p := range response.FeedData {
+		// 	posts = append(posts, feed.Posts{
+		// 		PostID:      int(p.Postid),
+		// 		Title:       p.Title,
+		// 		Author:      p.Author,
+		// 		Description: p.Description,
+		// 		Timestamp:   p.Timestamp})
+		// }
 
 		templates := template.Must(template.ParseFiles("templates/feed.html"))
 
@@ -174,7 +174,6 @@ func main() {
 		if err := templates.ExecuteTemplate(w, "welcome.html", curruser); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
-
 
 	})
 

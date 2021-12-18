@@ -20,7 +20,7 @@ type Users struct {
 	Follows  []string
 }
 
-type Posts struct {
+type Post struct {
 	PostID      int
 	Title       string
 	Author      string
@@ -31,7 +31,7 @@ type Posts struct {
 func (s *Server) GetFeed(ctx context.Context, in *FeedRequest) (*FeedResponse, error) {
 	log.Printf("Receieved following details from Client: \nusername: %s", in.Username)
 	// Open our jsonFile
-	jsonFile, err := os.Open("../data/users.json")
+	jsonFile, err := os.Open("data/users.json")
 
 	// if we os.Open returns an error then handle it
 	if err != nil {
@@ -72,7 +72,7 @@ func (s *Server) GetFeed(ctx context.Context, in *FeedRequest) (*FeedResponse, e
 
 	// fmt.Println(curruser)
 
-	jsonFile, err = os.Open("../data/posts.json")
+	jsonFile, err = os.Open("data/posts.json")
 
 	// if we os.Open returns an error then handle it
 	if err != nil {
@@ -87,26 +87,34 @@ func (s *Server) GetFeed(ctx context.Context, in *FeedRequest) (*FeedResponse, e
 	byteValue, _ = ioutil.ReadAll(jsonFile)
 
 	// we initialize our Users array
-	var posts []Posts
-	var filterPosts []*Post
-
+	var posts []Post
+	filterPostIDs := []int32{}
+	filterPostTitles := []string{}
+	filterPostAuthor := []string{}
+	filterPostDescription := []string{}
+	filterPostTimestamps := []string{}
 	// we unmarshal our byteArray which contains our
 	// jsonFile's content into 'users' which we defined above
 	json.Unmarshal(byteValue, &posts)
+	fmt.Println(posts)
 
 	for _, p := range posts {
 		// fmt.Println(b.Username)
 		// fmt.Println(b.Password)
 		if followers[p.Author] {
-			filterPosts = append(filterPosts, &Post{
-				Postid:      int32(p.PostID),
-				Title:       p.Title,
-				Author:      p.Author,
-				Description: p.Description,
-				Timestamp:   p.Timestamp})
+			filterPostIDs = append(filterPostIDs, int32(p.PostID))
+			filterPostTitles = append(filterPostTitles, p.Title)
+			filterPostAuthor = append(filterPostAuthor, p.Author)
+			filterPostDescription = append(filterPostDescription, p.Description)
+			filterPostTimestamps = append(filterPostTimestamps, p.Timestamp)
 			fmt.Println("Filtered Posts for feed Successfully!")
 		}
 	}
+	fmt.Println(filterPostIDs, filterPostTitles)
 
-	return &FeedResponse{FeedData: filterPosts}, nil
+	return &FeedResponse{Postid: filterPostIDs,
+		Title:       filterPostTitles,
+		Author:      filterPostAuthor,
+		Description: filterPostDescription,
+		Timestamp:   filterPostTimestamps}, nil
 }
