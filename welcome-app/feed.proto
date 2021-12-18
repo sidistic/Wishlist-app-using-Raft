@@ -16,7 +16,19 @@ message FeedResponse{
     repeated string timestamp = 5;
 
 }
+message PostData{
+    int32 postid = 1;
+    string title = 2;
+    string author = 3;
+    string description = 4;
+    string timestamp = 5;
+}
+
+message PostDataResponse{
+    bool success = 1;
+}
 
 service FeedService{
     rpc GetFeed(FeedRequest) returns (FeedResponse){}
+    rpc PostToServer(PostData) returns (PostDataResponse){}
 }

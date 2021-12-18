@@ -150,6 +150,132 @@ func (x *FeedResponse) GetTimestamp() []string {
 	return nil
 }
 
+type PostData struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Postid      int32  `protobuf:"varint,1,opt,name=postid,proto3" json:"postid,omitempty"`
+	Title       string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	Author      string `protobuf:"bytes,3,opt,name=author,proto3" json:"author,omitempty"`
+	Description string `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	Timestamp   string `protobuf:"bytes,5,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+}
+
+func (x *PostData) Reset() {
+	*x = PostData{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_feed_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PostData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PostData) ProtoMessage() {}
+
+func (x *PostData) ProtoReflect() protoreflect.Message {
+	mi := &file_feed_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PostData.ProtoReflect.Descriptor instead.
+func (*PostData) Descriptor() ([]byte, []int) {
+	return file_feed_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *PostData) GetPostid() int32 {
+	if x != nil {
+		return x.Postid
+	}
+	return 0
+}
+
+func (x *PostData) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *PostData) GetAuthor() string {
+	if x != nil {
+		return x.Author
+	}
+	return ""
+}
+
+func (x *PostData) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *PostData) GetTimestamp() string {
+	if x != nil {
+		return x.Timestamp
+	}
+	return ""
+}
+
+type PostDataResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Success bool `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+}
+
+func (x *PostDataResponse) Reset() {
+	*x = PostDataResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_feed_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PostDataResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PostDataResponse) ProtoMessage() {}
+
+func (x *PostDataResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_feed_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PostDataResponse.ProtoReflect.Descriptor instead.
+func (*PostDataResponse) Descriptor() ([]byte, []int) {
+	return file_feed_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *PostDataResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
 var File_feed_proto protoreflect.FileDescriptor
 
 var file_feed_proto_rawDesc = []byte{
@@ -166,12 +292,27 @@ var file_feed_proto_rawDesc = []byte{
 	0x69, 0x6f, 0x6e, 0x18, 0x04, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72,
 	0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x1c, 0x0a, 0x09, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74,
 	0x61, 0x6d, 0x70, 0x18, 0x05, 0x20, 0x03, 0x28, 0x09, 0x52, 0x09, 0x74, 0x69, 0x6d, 0x65, 0x73,
-	0x74, 0x61, 0x6d, 0x70, 0x32, 0x41, 0x0a, 0x0b, 0x46, 0x65, 0x65, 0x64, 0x53, 0x65, 0x72, 0x76,
-	0x69, 0x63, 0x65, 0x12, 0x32, 0x0a, 0x07, 0x47, 0x65, 0x74, 0x46, 0x65, 0x65, 0x64, 0x12, 0x11,
-	0x2e, 0x66, 0x65, 0x65, 0x64, 0x2e, 0x46, 0x65, 0x65, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x1a, 0x12, 0x2e, 0x66, 0x65, 0x65, 0x64, 0x2e, 0x46, 0x65, 0x65, 0x64, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x04, 0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x74, 0x61, 0x6d, 0x70, 0x22, 0x90, 0x01, 0x0a, 0x08, 0x50, 0x6f, 0x73, 0x74, 0x44, 0x61, 0x74,
+	0x61, 0x12, 0x16, 0x0a, 0x06, 0x70, 0x6f, 0x73, 0x74, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x05, 0x52, 0x06, 0x70, 0x6f, 0x73, 0x74, 0x69, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x69, 0x74,
+	0x6c, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x12,
+	0x16, 0x0a, 0x06, 0x61, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x06, 0x61, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x12, 0x20, 0x0a, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72,
+	0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x64, 0x65,
+	0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x1c, 0x0a, 0x09, 0x74, 0x69, 0x6d,
+	0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x74, 0x69,
+	0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x22, 0x2c, 0x0a, 0x10, 0x50, 0x6f, 0x73, 0x74, 0x44,
+	0x61, 0x74, 0x61, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x73,
+	0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x73, 0x75,
+	0x63, 0x63, 0x65, 0x73, 0x73, 0x32, 0x7b, 0x0a, 0x0b, 0x46, 0x65, 0x65, 0x64, 0x53, 0x65, 0x72,
+	0x76, 0x69, 0x63, 0x65, 0x12, 0x32, 0x0a, 0x07, 0x47, 0x65, 0x74, 0x46, 0x65, 0x65, 0x64, 0x12,
+	0x11, 0x2e, 0x66, 0x65, 0x65, 0x64, 0x2e, 0x46, 0x65, 0x65, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x12, 0x2e, 0x66, 0x65, 0x65, 0x64, 0x2e, 0x46, 0x65, 0x65, 0x64, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x38, 0x0a, 0x0c, 0x50, 0x6f, 0x73, 0x74,
+	0x54, 0x6f, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72, 0x12, 0x0e, 0x2e, 0x66, 0x65, 0x65, 0x64, 0x2e,
+	0x50, 0x6f, 0x73, 0x74, 0x44, 0x61, 0x74, 0x61, 0x1a, 0x16, 0x2e, 0x66, 0x65, 0x65, 0x64, 0x2e,
+	0x50, 0x6f, 0x73, 0x74, 0x44, 0x61, 0x74, 0x61, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0x00, 0x42, 0x04, 0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -186,16 +327,20 @@ func file_feed_proto_rawDescGZIP() []byte {
 	return file_feed_proto_rawDescData
 }
 
-var file_feed_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_feed_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_feed_proto_goTypes = []interface{}{
-	(*FeedRequest)(nil),  // 0: feed.FeedRequest
-	(*FeedResponse)(nil), // 1: feed.FeedResponse
+	(*FeedRequest)(nil),      // 0: feed.FeedRequest
+	(*FeedResponse)(nil),     // 1: feed.FeedResponse
+	(*PostData)(nil),         // 2: feed.PostData
+	(*PostDataResponse)(nil), // 3: feed.PostDataResponse
 }
 var file_feed_proto_depIdxs = []int32{
 	0, // 0: feed.FeedService.GetFeed:input_type -> feed.FeedRequest
-	1, // 1: feed.FeedService.GetFeed:output_type -> feed.FeedResponse
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
+	2, // 1: feed.FeedService.PostToServer:input_type -> feed.PostData
+	1, // 2: feed.FeedService.GetFeed:output_type -> feed.FeedResponse
+	3, // 3: feed.FeedService.PostToServer:output_type -> feed.PostDataResponse
+	2, // [2:4] is the sub-list for method output_type
+	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -231,6 +376,30 @@ func file_feed_proto_init() {
 				return nil
 			}
 		}
+		file_feed_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PostData); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_feed_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PostDataResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -238,7 +407,7 @@ func file_feed_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_feed_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -265,6 +434,7 @@ const _ = grpc.SupportPackageIsVersion6
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type FeedServiceClient interface {
 	GetFeed(ctx context.Context, in *FeedRequest, opts ...grpc.CallOption) (*FeedResponse, error)
+	PostToServer(ctx context.Context, in *PostData, opts ...grpc.CallOption) (*PostDataResponse, error)
 }
 
 type feedServiceClient struct {
@@ -284,9 +454,19 @@ func (c *feedServiceClient) GetFeed(ctx context.Context, in *FeedRequest, opts .
 	return out, nil
 }
 
+func (c *feedServiceClient) PostToServer(ctx context.Context, in *PostData, opts ...grpc.CallOption) (*PostDataResponse, error) {
+	out := new(PostDataResponse)
+	err := c.cc.Invoke(ctx, "/feed.FeedService/PostToServer", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // FeedServiceServer is the server API for FeedService service.
 type FeedServiceServer interface {
 	GetFeed(context.Context, *FeedRequest) (*FeedResponse, error)
+	PostToServer(context.Context, *PostData) (*PostDataResponse, error)
 }
 
 // UnimplementedFeedServiceServer can be embedded to have forward compatible implementations.
@@ -295,6 +475,9 @@ type UnimplementedFeedServiceServer struct {
 
 func (*UnimplementedFeedServiceServer) GetFeed(context.Context, *FeedRequest) (*FeedResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetFeed not implemented")
+}
+func (*UnimplementedFeedServiceServer) PostToServer(context.Context, *PostData) (*PostDataResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PostToServer not implemented")
 }
 
 func RegisterFeedServiceServer(s *grpc.Server, srv FeedServiceServer) {
@@ -319,6 +502,24 @@ func _FeedService_GetFeed_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _FeedService_PostToServer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PostData)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FeedServiceServer).PostToServer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/feed.FeedService/PostToServer",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FeedServiceServer).PostToServer(ctx, req.(*PostData))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _FeedService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "feed.FeedService",
 	HandlerType: (*FeedServiceServer)(nil),
@@ -326,6 +527,10 @@ var _FeedService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetFeed",
 			Handler:    _FeedService_GetFeed_Handler,
+		},
+		{
+			MethodName: "PostToServer",
+			Handler:    _FeedService_PostToServer_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

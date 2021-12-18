@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"time"
 	"welcome-app/feed"
 	"welcome-app/login"
 
@@ -28,7 +29,7 @@ type CurrUser struct {
 func main() {
 
 	curruser := CurrUser{"vihaha"}
-	// posts := []feed.Posts{}
+	posts := []feed.Posts{}
 
 	http.Handle("/static/",
 		http.StripPrefix("/static/",
@@ -126,7 +127,7 @@ func main() {
 
 		templates := template.Must(template.ParseFiles("templates/feed.html"))
 
-		if err := templates.ExecuteTemplate(w, "feed.html", curruser); err != nil {
+		if err := templates.ExecuteTemplate(w, "feed.html", curruser, posts); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 
@@ -142,7 +143,33 @@ func main() {
 	})
 
 	http.HandleFunc("/add-post", func(w http.ResponseWriter, r *http.Request) {
+		r.ParseForm()
 
+		var ip_title = r.Form["title"][0]
+		var ip_description = r.Form["description"][0]
+
+		var conn *grpc.ClientConn
+		conn, err := grpc.Dial(":9000", grpc.WithInsecure())
+		if err != nil {
+			log.Fatalf("did not connect: %s", err)
+		}
+		defer conn.Close()
+
+		f := feed.NewFeedServiceClient(conn)
+		response, err := f.PostToServer(context.Background(), &feed.PostData{
+			Postid:      0,
+			Title:       ip_title,
+			Description: ip_description,
+			Author:      curruser.Username,
+			Timestamp:   time.Now().Format("01-02-2006 15:04:05"),
+		})
+		if response.Success {
+			templates := template.Must(template.ParseFiles("templates/feed.html"))
+
+			if err := templates.ExecuteTemplate(w, "feed.html", currposts); err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
+		}
 	})
 
 	http.HandleFunc("/users", func(w http.ResponseWriter, r *http.Request) {
