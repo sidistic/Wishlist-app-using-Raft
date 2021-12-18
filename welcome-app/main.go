@@ -18,20 +18,11 @@ type CurrUser struct {
 	Username string
 }
 
-
 //Go application entrypoint
 func main() {
 
 	curruser := CurrUser{"vihaha"}
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-	posts := []feed.Posts{}
-=======
-	// myposts := Post{5, "test", "test", "test", "test"}
->>>>>>> a8db949480b9c50926429b39426073ee92fb06a2
 	currposts := []feed.Post{}
->>>>>>> 3a2f6e363a311bd25d3c9e8461caa2c7058be103
 
 	http.Handle("/static/",
 		http.StripPrefix("/static/",
@@ -119,17 +110,15 @@ func main() {
 		currposts = []feed.Post{}
 		log.Println(curruser)
 		log.Println(response)
-		for i,_ := range response.Postid {
+		for i, _ := range response.Postid {
 			currposts = append(currposts, feed.Post{
-				PostID: int(response.Postid[i]),
-				Title: response.Title[i],
-				Author: response.Author[i],
+				PostID:      int(response.Postid[i]),
+				Title:       response.Title[i],
+				Author:      response.Author[i],
 				Description: response.Description[i],
-				Timestamp: response.Timestamp[i],
+				Timestamp:   response.Timestamp[i],
 			})
 		}
-
-
 
 		// for _, p := range response.FeedData {
 		// 	posts = append(posts, feed.Posts{
@@ -141,14 +130,8 @@ func main() {
 		// }
 		// log.Println(response.postid)
 
-
 		templates := template.Must(template.ParseFiles("templates/feed.html"))
-
-<<<<<<< HEAD
-		if err := templates.ExecuteTemplate(w, "feed.html", curruser, posts); err != nil {
-=======
 		if err := templates.ExecuteTemplate(w, "feed.html", currposts); err != nil {
->>>>>>> 3a2f6e363a311bd25d3c9e8461caa2c7058be103
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 

@@ -139,7 +139,7 @@ func (s *Server) PostToServer(ctx context.Context, in *PostData) (*PostDataRespo
 	json.Unmarshal(byteValue, &posts)
 	jsonFile.Close()
 	posts = append(posts, Post{
-		PostID:      in.Postid,
+		PostID:      int(in.Postid),
 		Title:       in.Title,
 		Author:      in.Author,
 		Description: in.Description,
