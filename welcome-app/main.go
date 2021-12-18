@@ -23,15 +23,7 @@ type CurrUser struct {
 func main() {
 
 	curruser := CurrUser{"vihaha"}
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-	posts := []feed.Posts{}
-=======
-	// myposts := Post{5, "test", "test", "test", "test"}
->>>>>>> a8db949480b9c50926429b39426073ee92fb06a2
 	currposts := []feed.Post{}
->>>>>>> 3a2f6e363a311bd25d3c9e8461caa2c7058be103
 
 	http.Handle("/static/",
 		http.StripPrefix("/static/",
@@ -144,11 +136,7 @@ func main() {
 
 		templates := template.Must(template.ParseFiles("templates/feed.html"))
 
-<<<<<<< HEAD
-		if err := templates.ExecuteTemplate(w, "feed.html", curruser, posts); err != nil {
-=======
 		if err := templates.ExecuteTemplate(w, "feed.html", currposts); err != nil {
->>>>>>> 3a2f6e363a311bd25d3c9e8461caa2c7058be103
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 
