@@ -22,7 +22,6 @@ type CurrUser struct {
 func main() {
 
 	curruser := CurrUser{"vihaha"}
-	// myposts := Post{5, "test", "test", "test", "test"}
 	currposts := []feed.Post{}
 
 	http.Handle("/static/",

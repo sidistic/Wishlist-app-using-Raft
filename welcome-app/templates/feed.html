@@ -18,7 +18,6 @@
     </div>    
 
     <h2>My Feed</h2>
-    {{range $index, $element := .}} {{$element.Title}} {{$index}} {{end}}
 
     <form action="/add-post" method="post" style="border: none;">
 
@@ -35,13 +34,21 @@
     
         </form>
 
-    <div id = "feed-container">
-
+        
+    {{range $index, $element := .}} 
+    <hr>
+    <div class="feedcontainer">
+        <div class = "title">Title: {{$element.Title}}</div>
+        <div>Author: {{$element.Author}}</div>
+        <div>Description: {{$element.Description}}</div>
+        <div>Timestamp: {{$element.Timestamp}}</div>
     </div>
+    {{end}}
+
 
 
 </body>
-
+<!-- 
 <script>
     function fetchPosts(){
 
@@ -88,6 +95,6 @@
         });
 
     }
-</script>
+</script> -->
 
 </html>
