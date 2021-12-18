@@ -17,7 +17,8 @@
         <a href="/signout">Sign Out</a>
     </div>    
 
-    <h2>My Feed</h2> 
+    <h2>My Feed</h2>
+    {{range $index, $element := .}} {{$element.Title}} {{$index}} {{end}}
 
     <form action="/add-post" method="post" style="border: none;">
 
@@ -52,10 +53,9 @@
         return false
     }
 
-    fetchPosts()
+    // fetchPosts()
 
     function renderPosts(posts){
-
         posts.forEach(post => {
 
             parentElement = document.createElement('div')
@@ -86,7 +86,6 @@
             feedContainer.appendChild(parentElement)
 
         });
-
 
     }
 </script>
