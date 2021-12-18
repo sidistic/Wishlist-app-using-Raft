@@ -93,6 +93,13 @@ func main() {
 		}
 	})
 
+	http.HandleFunc("/add-user", func(w http.ResponseWriter, r *http.Request) {
+
+
+	})
+
+
+
 	http.HandleFunc("/feed", func(w http.ResponseWriter, r *http.Request) {
 		var conn *grpc.ClientConn
 		conn, err := grpc.Dial(":9000", grpc.WithInsecure())
