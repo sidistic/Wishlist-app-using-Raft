@@ -19,12 +19,17 @@ type User struct {
 type Server struct {
 }
 
+func DummyFunc(x int) (result int) {
+    result = x + 2
+    return result
+}
+
 func (s *Server) SignUpUser(ctx context.Context, in *SignUpRequest) (*SignUpResponse, error) {
 	if in.Password != in.ConfirmPassword {
 		return &SignUpResponse{Success: false}, nil
 	}
 
-	file, err := ioutil.ReadFile("data/users.json")
+	file, err := ioutil.ReadFile("../data/users.json") //modified temporarily for testing
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -50,7 +55,7 @@ func (s *Server) SignUpUser(ctx context.Context, in *SignUpRequest) (*SignUpResp
 	if err != nil {
 		fmt.Println(err)
 	}
-	err = ioutil.WriteFile("data/users.json", dataBytes, 0644)
+	err = ioutil.WriteFile("../data/users.json", dataBytes, 0644) //modified temporarily for testing
 	if err != nil {
 		log.Fatalf("SignUpUser: failed to write to file on server: %v", err)
 	}
@@ -58,7 +63,7 @@ func (s *Server) SignUpUser(ctx context.Context, in *SignUpRequest) (*SignUpResp
 }
 
 func (s *Server) GetFollowing(ctx context.Context, in *FollowerRequest) (*FollowerResponse, error) {
-	file, err := ioutil.ReadFile("data/users.json")
+	file, err := ioutil.ReadFile("../data/users.json") //modified temporarily for testing
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -75,7 +80,7 @@ func (s *Server) GetFollowing(ctx context.Context, in *FollowerRequest) (*Follow
 		}
 	}
 	for _, u := range users {
-		if !checkIfFollowed(u.Username, Followed) {
+		if !CheckIfFollowed(u.Username, Followed) {
 			notFollowed = append(notFollowed, u.Username)
 		}
 	}
@@ -86,7 +91,7 @@ func (s *Server) GetFollowing(ctx context.Context, in *FollowerRequest) (*Follow
 	}, nil
 }
 
-func checkIfFollowed(username string, follows []string) bool {
+func CheckIfFollowed(username string, follows []string) bool {
 	for _, s := range follows {
 		if s == username {
 			return true
@@ -97,7 +102,7 @@ func checkIfFollowed(username string, follows []string) bool {
 
 func (s *Server) UpdateFollower(ctx context.Context, in *UpdateFollowersRequest) (*UpdateFollowersResponse, error) {
 
-	file, err := ioutil.ReadFile("data/users.json")
+	file, err := ioutil.ReadFile("../data/users.json") //modified temporarily for testing
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -126,7 +131,7 @@ func (s *Server) UpdateFollower(ctx context.Context, in *UpdateFollowersRequest)
 	if err != nil {
 		fmt.Println(err)
 	}
-	err = ioutil.WriteFile("data/users.json", dataBytes, 0644)
+	err = ioutil.WriteFile("../data/users.json", dataBytes, 0644) //modified temporarily for testing
 	if err != nil {
 		log.Fatalf("UpdateFollower: failed to write to file on server: %v", err)
 	}

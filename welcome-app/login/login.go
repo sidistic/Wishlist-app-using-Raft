@@ -23,7 +23,7 @@ type Users struct {
 func (s *Server) Authenticate(ctx context.Context, in *LoginDetails) (*LoginResponse, error) {
 	log.Printf("Receieved following details from Client: \nusername: %s\nPassword: %s ", in.Username, in.Password)
 	// Open our jsonFile
-	jsonFile, err := os.Open("data/users.json")
+	jsonFile, err := os.Open("../data/users.json") //modified temporarily for testing
 
 	// if we os.Open returns an error then handle it
 	if err != nil {

@@ -31,13 +31,15 @@ type Post struct {
 func (s *Server) GetFeed(ctx context.Context, in *FeedRequest) (*FeedResponse, error) {
 	log.Printf("Receieved following details from Client: \nusername: %s", in.Username)
 	// Open our jsonFile
-	jsonFile, err := os.Open("data/users.json")
+	jsonFile, err := os.Open("../data/users.json") //modified temporarily for testing
 
 	// if we os.Open returns an error then handle it
 	if err != nil {
 		fmt.Println(err)
+	} else {
+		fmt.Println("Successfully Opened users.json")
 	}
-	fmt.Println("Successfully Opened users.json")
+	
 
 	// defer the closing of our jsonFile so that we can parse it later on
 	defer jsonFile.Close()
@@ -72,13 +74,15 @@ func (s *Server) GetFeed(ctx context.Context, in *FeedRequest) (*FeedResponse, e
 
 	// fmt.Println(curruser)
 
-	jsonFile, err = os.Open("data/posts.json")
+	jsonFile, err = os.Open("../data/posts.json") //modified temporarily for testing
 
 	// if we os.Open returns an error then handle it
 	if err != nil {
 		fmt.Println(err)
+	} else {
+		fmt.Println("Successfully Opened posts.json")
 	}
-	fmt.Println("Successfully Opened posts.json")
+	
 
 	// defer the closing of our jsonFile so that we can parse it later on
 	defer jsonFile.Close()
@@ -119,13 +123,15 @@ func (s *Server) GetFeed(ctx context.Context, in *FeedRequest) (*FeedResponse, e
 		Timestamp:   filterPostTimestamps}, nil
 }
 func (s *Server) PostToServer(ctx context.Context, in *PostData) (*PostDataResponse, error) {
-	jsonFile, err := os.Open("data/posts.json")
+	jsonFile, err := os.Open("../data/posts.json") //modified temporarily for testing
 
 	// if we os.Open returns an error then handle it
 	if err != nil {
 		fmt.Println(err)
+	} else {
+		fmt.Println("Successfully Opened posts.json")
 	}
-	fmt.Println("Successfully Opened posts.json")
+	
 
 	// defer the closing of our jsonFile so that we can parse it later on
 
@@ -149,7 +155,7 @@ func (s *Server) PostToServer(ctx context.Context, in *PostData) (*PostDataRespo
 	if err != nil {
 		fmt.Println(err)
 	}
-	err = ioutil.WriteFile("data/posts.json", byteValue, 0644)
+	err = ioutil.WriteFile("../data/posts.json", byteValue, 0644) //modified temporarily for testing
 	if err != nil {
 		log.Fatalf("failed to write to file on server: %v", err)
 	}
