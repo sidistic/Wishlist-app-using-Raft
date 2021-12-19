@@ -1,8 +1,18 @@
 # Instructions
 
-## To Run
+## To Run App
 
+    cd welcome-app
     go run main.go
+    go run server.go
+
+# To Run Tests
+
+    cd login
+    go test -v
+    go test -cover
+    go test -coverprofile=coverage.out
+    go tool cover -html=coverage.out
 
 
 # Distributed Finaly Project Course Materials
