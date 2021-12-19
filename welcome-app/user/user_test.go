@@ -96,6 +96,8 @@ func TestUpdateFollower(t *testing.T) {
     }
     defer conn.Close()
     client := NewUserServiceClient(conn)
+
+	// Test Case 1: Successfully follow previously unfollowed
     resp, err := client.UpdateFollower(ctx, &UpdateFollowersRequest{
 		Username: "vihaha",
 		Newuser:  "sidistic",
@@ -110,6 +112,20 @@ func TestUpdateFollower(t *testing.T) {
 		t.Errorf("Error")
 	}
 
+	// Test Case 2: Successfully unfollow previously followed
+	resp, err = client.UpdateFollower(ctx, &UpdateFollowersRequest{
+		Username: "vihaha",
+		Newuser:  "sidistic",
+		IsFollow: true,
+	})
+    if err != nil {
+        t.Fatalf("UpdateFollower failed: %v", err)
+    }
+    log.Printf("\nResponse: %+v", resp)
+
+	if resp.Success != true {
+		t.Errorf("Error")
+	}
 }
 
 
