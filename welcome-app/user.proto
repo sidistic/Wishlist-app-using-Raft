@@ -24,7 +24,18 @@ message FollowerResponse{
     repeated string notFollowers = 2;
 }
 
+message UpdateFollowersRequest{
+    string username = 1;
+    string newuser = 2;
+    bool isFollow = 3;
+}
+
+message UpdateFollowersResponse{
+    bool success = 1;
+}
+
 service UserService{
     rpc SignUpUser(SignUpRequest) returns (SignUpResponse) {}
-    // rpc GetFollowing(FollowerRequest) returns (FollowerRequest){}
+    rpc GetFollowing(FollowerRequest) returns (FollowerResponse){}
+    rpc UpdateFollower(UpdateFollowersRequest) returns (UpdateFollowersResponse){}
 }

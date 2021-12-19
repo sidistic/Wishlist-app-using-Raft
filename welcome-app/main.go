@@ -16,13 +16,15 @@ import (
 
 //Create a struct that holds information to be displayed in our HTML file
 type CurrUser struct {
-	Username string
+	Username    string
+	Followed    []string
+	notFollowed []string
 }
 
 //Go application entrypoint
 func main() {
 
-	curruser := CurrUser{"vihaha"}
+	curruser := CurrUser{Username: "vihaha"}
 	currposts := []feed.Post{}
 
 	http.Handle("/static/",
@@ -221,11 +223,125 @@ func main() {
 
 	http.HandleFunc("/users", func(w http.ResponseWriter, r *http.Request) {
 
+		var conn *grpc.ClientConn
+		conn, err := grpc.Dial(":9000", grpc.WithInsecure())
+		if err != nil {
+			log.Fatalf("did not connect: %s", err)
+		}
+		defer conn.Close()
+
+		u := user.NewUserServiceClient(conn)
+
+		response, err := u.GetFollowing(context.Background(), &user.FollowerRequest{
+			Username: curruser.Username,
+		})
+
 		templates := template.Must(template.ParseFiles("templates/users.html"))
 
-		if err := templates.ExecuteTemplate(w, "users.html", curruser); err != nil {
+		if err := templates.ExecuteTemplate(w, "users.html", response); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
+	})
+	http.HandleFunc("/unfollow", func(w http.ResponseWriter, r *http.Request) {
+		r.ParseForm()
+
+		var ip_Newuser = r.Form["username"][0]
+
+		var conn *grpc.ClientConn
+		conn, err := grpc.Dial(":9000", grpc.WithInsecure())
+		if err != nil {
+			log.Fatalf("did not connect: %s", err)
+		}
+		defer conn.Close()
+
+		u := user.NewUserServiceClient(conn)
+
+		res, err := u.UpdateFollower(context.Background(), &user.UpdateFollowersRequest{
+			Username: curruser.Username,
+			Newuser:  ip_Newuser,
+			IsFollow: false,
+		})
+		if err != nil {
+			log.Fatalf("Could not UpdateFollower: %s", err)
+		}
+
+		if res.Success {
+			response, err := u.GetFollowing(context.Background(), &user.FollowerRequest{
+				Username: curruser.Username,
+			})
+			if err != nil {
+				log.Fatalf("Could not get following: %s", err)
+			}
+			templates := template.Must(template.ParseFiles("templates/users.html"))
+
+			if err := templates.ExecuteTemplate(w, "users.html", response); err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
+		} else {
+			response, err := u.GetFollowing(context.Background(), &user.FollowerRequest{
+				Username: curruser.Username,
+			})
+			if err != nil {
+				log.Fatalf("Could not get following: %s", err)
+			}
+			templates := template.Must(template.ParseFiles("templates/users.html"))
+
+			if err := templates.ExecuteTemplate(w, "users.html", response); err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
+		}
+
+	})
+
+	http.HandleFunc("/follow", func(w http.ResponseWriter, r *http.Request) {
+		r.ParseForm()
+
+		var ip_Newuser = r.Form["username"][0]
+
+		var conn *grpc.ClientConn
+		conn, err := grpc.Dial(":9000", grpc.WithInsecure())
+		if err != nil {
+			log.Fatalf("did not connect: %s", err)
+		}
+		defer conn.Close()
+
+		u := user.NewUserServiceClient(conn)
+
+		res, err := u.UpdateFollower(context.Background(), &user.UpdateFollowersRequest{
+			Username: curruser.Username,
+			Newuser:  ip_Newuser,
+			IsFollow: true,
+		})
+		if err != nil {
+			log.Fatalf("Could not UpdateFollower: %s", err)
+		}
+
+		if res.Success {
+			response, err := u.GetFollowing(context.Background(), &user.FollowerRequest{
+				Username: curruser.Username,
+			})
+			if err != nil {
+				log.Fatalf("Could not get following: %s", err)
+			}
+			templates := template.Must(template.ParseFiles("templates/users.html"))
+
+			if err := templates.ExecuteTemplate(w, "users.html", response); err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
+		} else {
+			response, err := u.GetFollowing(context.Background(), &user.FollowerRequest{
+				Username: curruser.Username,
+			})
+			if err != nil {
+				log.Fatalf("Could not get following: %s", err)
+			}
+			templates := template.Must(template.ParseFiles("templates/users.html"))
+
+			if err := templates.ExecuteTemplate(w, "users.html", response); err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
+		}
+
 	})
 
 	http.HandleFunc("/api/users", func(w http.ResponseWriter, r *http.Request) {
@@ -241,6 +357,7 @@ func main() {
 
 		// Reset user to guest
 		curruser.Username = "Guest"
+		currposts = []feed.Post{}
 
 		// Redirect to homepage
 		templates := template.Must(template.ParseFiles("templates/welcome.html"))

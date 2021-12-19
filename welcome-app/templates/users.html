@@ -3,8 +3,6 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="/static/styles.css">
-
-
 </head>
 <body>
 
@@ -17,16 +15,37 @@
         <a href="/signout">Sign Out</a>
     </div>    
 
-    <h2>Users</h2> 
-
-    <div id = "user-container">
-
+    <h2>Users You follow</h2> 
+    {{range $index, $element := .Followers}}
+    <hr>
+    <form action="/unfollow" method="post" style="border: none;">
+    <div class = "usercontainer">
+        <div>
+            Username: {{$element}}
+        </div>
+        <input type="hidden" id="username" name="username" value="{{$element}}">
+        <button type="submit">Unfollow</button>
     </div>
+    </form>
+    {{end}}
+    <h2>Discover Users</h2> 
+    {{range $index, $element := .NotFollowers}}
+    <hr>
+    <form action="/follow" method="post" style="border: none;">
+    <div class = "usercontainer">
+        <div>
+            Username: {{$element}}
+        </div>
+        <input type="hidden" id="username" name="username" value="{{$element}}">
+        <button type="submit">Follow</button>
+    </div>
+    </form>
+    {{end}}  
 
 
 </body>
 
-<script>
+<!-- <script>
     function fetchUsers(){
 
         fetch('/api/users')
@@ -71,6 +90,6 @@
 
 
     }
-</script>
+</script> -->
 
 </html>
