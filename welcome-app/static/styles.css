@@ -74,6 +74,10 @@ button {
   width: 100%;
 }
 
+.unfollowbtn {
+    background-color: red
+}
+
 
 button:hover {
   opacity: 0.8;
