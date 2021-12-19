@@ -29,7 +29,7 @@ func (s *Server) SignUpUser(ctx context.Context, in *SignUpRequest) (*SignUpResp
 		return &SignUpResponse{Success: false}, nil
 	}
 
-	file, err := ioutil.ReadFile("../data/users.json") //modified temporarily for testing
+	file, err := ioutil.ReadFile("data/users.json") //modified temporarily for testing
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -55,7 +55,7 @@ func (s *Server) SignUpUser(ctx context.Context, in *SignUpRequest) (*SignUpResp
 	if err != nil {
 		fmt.Println(err)
 	}
-	err = ioutil.WriteFile("../data/users.json", dataBytes, 0644) //modified temporarily for testing
+	err = ioutil.WriteFile("data/users.json", dataBytes, 0644) //modified temporarily for testing
 	if err != nil {
 		log.Fatalf("SignUpUser: failed to write to file on server: %v", err)
 	}
@@ -63,7 +63,7 @@ func (s *Server) SignUpUser(ctx context.Context, in *SignUpRequest) (*SignUpResp
 }
 
 func (s *Server) GetFollowing(ctx context.Context, in *FollowerRequest) (*FollowerResponse, error) {
-	file, err := ioutil.ReadFile("../data/users.json") //modified temporarily for testing
+	file, err := ioutil.ReadFile("data/users.json") //modified temporarily for testing
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -102,7 +102,7 @@ func CheckIfFollowed(username string, follows []string) bool {
 
 func (s *Server) UpdateFollower(ctx context.Context, in *UpdateFollowersRequest) (*UpdateFollowersResponse, error) {
 
-	file, err := ioutil.ReadFile("../data/users.json") //modified temporarily for testing
+	file, err := ioutil.ReadFile("data/users.json") //modified temporarily for testing
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -131,7 +131,7 @@ func (s *Server) UpdateFollower(ctx context.Context, in *UpdateFollowersRequest)
 	if err != nil {
 		fmt.Println(err)
 	}
-	err = ioutil.WriteFile("../data/users.json", dataBytes, 0644) //modified temporarily for testing
+	err = ioutil.WriteFile("data/users.json", dataBytes, 0644) //modified temporarily for testing
 	if err != nil {
 		log.Fatalf("UpdateFollower: failed to write to file on server: %v", err)
 	}

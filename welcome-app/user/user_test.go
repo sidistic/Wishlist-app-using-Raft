@@ -80,7 +80,7 @@ func TestSignUpUser(t *testing.T) {
     }
     log.Printf("\nResponse: %+v", resp)
 
-	// if resp.NotFollowers != "bappi" {
+	// if resp.Success != true {
 	// 	t.Errorf("Error")
 	// }
 
