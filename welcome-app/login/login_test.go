@@ -39,7 +39,7 @@ func TestAuthenticate(t *testing.T) {
     defer conn.Close()
     client := NewAuthServiceClient(conn)
 
-	// positive test case
+	// Test Case 1: Correct username and password - should pass authentication
     resp, err := client.Authenticate(ctx, &LoginDetails{Username: "vihaha", Password: "v"})
     if err != nil {
         t.Fatalf("Authenticate failed: %v", err)
@@ -49,7 +49,7 @@ func TestAuthenticate(t *testing.T) {
 		t.Errorf("Error")
 	}
 
-	// negative test case
+	// Test Case: Wrong username and password - should fail to authenticate
 	resp, err = client.Authenticate(ctx, &LoginDetails{Username: "vihaha", Password: "wrongpass"})
     if err != nil {
         t.Fatalf("Authenticate failed: %v", err)

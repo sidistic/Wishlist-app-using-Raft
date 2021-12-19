@@ -2,22 +2,13 @@ package user
 
 import (
     "testing"
-	// "fmt"
+	"fmt"
 	"google.golang.org/grpc/test/bufconn"
 	"google.golang.org/grpc"
 	"log"
 	"golang.org/x/net/context"
 	"net"
 )
-
-// just for testing testing lol
-func TestDummyFunc(t *testing.T) {
-    if DummyFunc(2) != 4 {
-        t.Error("Expected 2 + 2 to equal 4")
-    }
-}
-
-
 
 const bufSize = 1024 * 1024
 
@@ -39,6 +30,18 @@ func bufDialer(context.Context, string) (net.Conn, error) {
     return lis.Dial()
 }
 
+func Equal(a []string, b [2]string) bool {
+    if len(a) != len(b) {
+        return false
+    }
+    for i, v := range a {
+        if v != b[i] {
+            return false
+        }
+    }
+    return true
+}
+
 func TestGetFollowing(t *testing.T) {
     ctx := context.Background()
     conn, err := grpc.DialContext(ctx, "bufnet", grpc.WithContextDialer(bufDialer), grpc.WithInsecure())
@@ -51,14 +54,24 @@ func TestGetFollowing(t *testing.T) {
     if err != nil {
         t.Fatalf("GetFollowing failed: %v", err)
     }
-    log.Printf("\nResponse: %+v", resp)
+    log.Printf("\nResponse: %v", resp)
+	log.Printf("\nResponse: %v", resp.Followers)
+	log.Printf("\nResponse: %v", resp.NotFollowers)
 
-	// if resp.NotFollowers != "bappi" {
-	// 	t.Errorf("Error")
-	// }
+	trueFollowers := [...]string{"karanimal", "vihaha"}
+	trueNotFollowers := [...]string{"sidistic", "bappi"}
 
+	fmt.Println(Equal(resp.Followers, trueFollowers))
+	fmt.Println(Equal(resp.NotFollowers, trueNotFollowers))
+
+	if Equal(resp.Followers, trueFollowers) != true{
+		t.Errorf("Error")
+	}
+
+	if Equal(resp.NotFollowers, trueNotFollowers) != true{
+		t.Errorf("Error")
+	}
 }
-
 
 
 func TestSignUpUser(t *testing.T) {
@@ -80,9 +93,9 @@ func TestSignUpUser(t *testing.T) {
     }
     log.Printf("\nResponse: %+v", resp)
 
-	// if resp.Success != true {
-	// 	t.Errorf("Error")
-	// }
+	if resp.Success != true {
+		t.Errorf("Error")
+	}
 
 }
 
@@ -128,20 +141,3 @@ func TestUpdateFollower(t *testing.T) {
 	}
 }
 
-
-
-// func TestCheckIfFollowed(t *testing.T) {
-
-// 	follows := [...]string{"viha", "sid", "bharath"}
-
-// 	// Positive test case
-//     if CheckIfFollowed("viha", follows) != true{
-//         t.Error("checkIfFollowed Failed")
-//     }
-
-// 	// Negative test case
-// 	if CheckIfFollowed("karan", follows) == true{
-//         t.Error("checkIfFollowed Failed")
-//     }
-
-// }

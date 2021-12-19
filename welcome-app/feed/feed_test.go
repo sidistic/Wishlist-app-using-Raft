@@ -40,17 +40,36 @@ func TestGetFeed(t *testing.T) {
     defer conn.Close()
     client := NewFeedServiceClient(conn)
 
-	// positive test case
-    resp, err := client.GetFeed(ctx, &FeedRequest{Username: "vihaha"})
+	// Test Case 1: Valid user
+    resp, err := client.GetFeed(ctx, &FeedRequest{Username: "karanimal"})
     if err != nil {
         t.Fatalf("GetFeed failed: %v", err)
     }
-    log.Printf("\nResponse: %+v", resp)
-	// if resp.Done != true {
-	// 	t.Errorf("Error")
-	// }
+    // log.Printf("\nResponse: %+v", resp)
+	// log.Printf("\nResponse: %+v", resp.Postid[0])
+	// log.Printf("\nResponse: %+v", resp.Title[0])
+	// log.Printf("\nResponse: %+v", resp.Author[0])
+	// log.Printf("\nResponse: %+v", resp.Description[0])
+	// log.Printf("\nResponse: %+v", resp.Timestamp[0])
+	if (resp.Postid[0] != 0) ||
+		(resp.Title[0] != "Robovacuum") ||
+		(resp.Author[0] != "vihaha") ||
+		(resp.Description[0] != "a splendid vacuum for my house") ||
+		(resp.Timestamp[0] != "72834492") {
+		t.Errorf("Error")
+	}
 
-
+	// Test Case 1: Invalid user
+    resp, err = client.GetFeed(ctx, &FeedRequest{Username: "gustavo"})
+    if err != nil {
+        t.Fatalf("GetFeed failed: %v", err)
+    }
+	// log.Printf("\nResponse: %+v", resp)
+	// log.Printf("\nResponse: %+v", resp.Postid)
+	// log.Printf("\nResponse: %+v", len(resp.Postid))
+	if len(resp.Postid) != 0 {
+		t.Errorf("Error")
+	}
 }
 
 
@@ -64,7 +83,6 @@ func TestPostToServer(t *testing.T) {
     defer conn.Close()
     client := NewFeedServiceClient(conn)
 
-	// positive test case
     resp, err := client.PostToServer(ctx, &PostData{
 	Postid:      0,
 	Title:       "test title",
@@ -77,9 +95,9 @@ func TestPostToServer(t *testing.T) {
         t.Fatalf("PostToServer failed: %v", err)
     }
     log.Printf("\nResponse: %+v", resp)
-	// if resp.Done != true {
-	// 	t.Errorf("Error")
-	// }
+	if resp.Success != true {
+		t.Errorf("Error")
+	}
 
 
 }

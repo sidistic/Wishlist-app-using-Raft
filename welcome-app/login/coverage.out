@@ -1,4 +1,10 @@
 mode: set
+welcome-app/login/login.go:23.94,29.16 3 1
+welcome-app/login/login.go:32.2,49.26 7 1
+welcome-app/login/login.go:59.2,65.59 3 1
+welcome-app/login/login.go:29.16,31.3 1 0
+welcome-app/login/login.go:49.26,52.61 1 1
+welcome-app/login/login.go:52.61,56.4 2 1
 welcome-app/login/login.pb.go:36.32,38.29 2 1
 welcome-app/login/login.pb.go:38.29,42.3 3 1
 welcome-app/login/login.pb.go:45.40,47.2 1 0
@@ -64,9 +70,3 @@ welcome-app/login/login.pb.go:299.2,299.44 1 0
 welcome-app/login/login.pb.go:286.32,288.3 1 0
 welcome-app/login/login.pb.go:289.24,291.3 1 1
 welcome-app/login/login.pb.go:296.77,298.3 1 0
-welcome-app/login/login.go:23.94,29.16 3 1
-welcome-app/login/login.go:32.2,49.26 7 1
-welcome-app/login/login.go:59.2,65.59 3 1
-welcome-app/login/login.go:29.16,31.3 1 0
-welcome-app/login/login.go:49.26,52.61 1 1
-welcome-app/login/login.go:52.61,56.4 2 1

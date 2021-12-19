@@ -19,11 +19,6 @@ type User struct {
 type Server struct {
 }
 
-func DummyFunc(x int) (result int) {
-    result = x + 2
-    return result
-}
-
 func (s *Server) SignUpUser(ctx context.Context, in *SignUpRequest) (*SignUpResponse, error) {
 	if in.Password != in.ConfirmPassword {
 		return &SignUpResponse{Success: false}, nil
