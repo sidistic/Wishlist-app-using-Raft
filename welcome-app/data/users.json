@@ -1,20 +1,31 @@
 [
     {
-        "username": "vihaha",
-        "name": "viha",
-        "password": "v",
-        "follows": ["karanimal", "sidistic"]
+        "Username": "vihaha",
+        "Name": "viha",
+        "Password": "v",
+        "Follows": [
+            "karanimal",
+            "sidistic"
+        ]
     },
     {
-        "username": "karanimal",
-        "name": "karan",
-        "password": "v",
-        "follows": ["vihaha"]
+        "Username": "karanimal",
+        "Name": "karan",
+        "Password": "v",
+        "Follows": [
+            "vihaha"
+        ]
     },
     {
-        "username": "sidistic",
-        "name": "sid",
-        "password": "v",
-        "follows": []
+        "Username": "sidistic",
+        "Name": "sid",
+        "Password": "v",
+        "Follows": []
+    },
+    {
+        "Username": "bappi",
+        "Name": "bharat",
+        "Password": "v",
+        "Follows": []
     }
 ]

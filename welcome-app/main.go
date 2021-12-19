@@ -9,6 +9,7 @@ import (
 	"time"
 	"welcome-app/feed"
 	"welcome-app/login"
+	"welcome-app/user"
 
 	"google.golang.org/grpc"
 )
@@ -94,11 +95,46 @@ func main() {
 	})
 
 	http.HandleFunc("/add-user", func(w http.ResponseWriter, r *http.Request) {
+		r.ParseForm()
 
+		var ip_username = r.Form["username"][0]
+		var ip_name = r.Form["name"][0]
+		var ip_password = r.Form["password"][0]
+		var ip_confirmPassword = r.Form["confirm_password"][0]
+
+		var conn *grpc.ClientConn
+		conn, err := grpc.Dial(":9000", grpc.WithInsecure())
+		if err != nil {
+			log.Fatalf("did not connect: %s", err)
+		}
+		defer conn.Close()
+
+		u := user.NewUserServiceClient(conn)
+
+		response, err := u.SignUpUser(context.Background(), &user.SignUpRequest{
+			Username:        ip_username,
+			Password:        ip_password,
+			Name:            ip_name,
+			ConfirmPassword: ip_confirmPassword,
+		})
+		if err != nil {
+			log.Fatalf("Error when calling SignUpUser: %s", err)
+		}
+		if !response.Success {
+			templates := template.Must(template.ParseFiles("templates/signup.html"))
+
+			if err := templates.ExecuteTemplate(w, "signup.html", curruser); err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
+		} else {
+			templates := template.Must(template.ParseFiles("templates/login.html"))
+
+			if err := templates.ExecuteTemplate(w, "login.html", curruser); err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
+		}
 
 	})
-
-
 
 	http.HandleFunc("/feed", func(w http.ResponseWriter, r *http.Request) {
 		var conn *grpc.ClientConn

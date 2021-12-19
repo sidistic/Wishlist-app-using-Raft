@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option go_package = "./";
+
+package user;
+
+message SignUpRequest {
+    string username = 1;
+    string name =2;
+    string password =3;
+    string confirmPassword =4;
+}
+
+message SignUpResponse {
+    bool success = 1;
+}
+
+message FollowerRequest{
+    string username =1;
+}
+
+message FollowerResponse{
+    repeated string followers = 1;
+    repeated string notFollowers = 2;
+}
+
+service UserService{
+    rpc SignUpUser(SignUpRequest) returns (SignUpResponse) {}
+    // rpc GetFollowing(FollowerRequest) returns (FollowerRequest){}
+}
