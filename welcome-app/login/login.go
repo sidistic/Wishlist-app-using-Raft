@@ -3,9 +3,9 @@ package login
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	// "io/ioutil"
 	"log"
-	"os"
+	"os/exec"
 
 	"golang.org/x/net/context"
 )
@@ -22,20 +22,28 @@ type Users struct {
 
 func (s *Server) Authenticate(ctx context.Context, in *LoginDetails) (*LoginResponse, error) {
 	log.Printf("Receieved following details from Client: \nusername: %s\nPassword: %s ", in.Username, in.Password)
-	// Open our jsonFile
-	jsonFile, err := os.Open("data/users.json") //modified temporarily for testing
 
-	// if we os.Open returns an error then handle it
+	//Uncomment the following before running test ####
+	// // Open our jsonFile
+	// jsonFile, err := os.Open("data/users.json") //modified temporarily for testing
+
+	// // if we os.Open returns an error then handle it
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+	// fmt.Println("Successfully Opened users.json")
+
+	// // defer the closing of our jsonFile so that we can parse it later on
+	// defer jsonFile.Close()
+
+	// // read our opened jsonFile as a byte array.
+	// byteValue, _ := ioutil.ReadAll(jsonFile)
+	// ####
+
+	byteValue,err := exec.Command("curl -L http://127.0.0.1:12380/users").Output()
 	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println("Successfully Opened users.json")
-
-	// defer the closing of our jsonFile so that we can parse it later on
-	defer jsonFile.Close()
-
-	// read our opened jsonFile as a byte array.
-	byteValue, _ := ioutil.ReadAll(jsonFile)
+        fmt.Printf("%s", err)
+    }
 
 	// we initialize our Users array
 	var users []Users
