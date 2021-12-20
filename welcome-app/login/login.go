@@ -3,9 +3,10 @@ package login
 import (
 	"encoding/json"
 	"fmt"
-	// "io/ioutil"
+	"net/http"
+	"io/ioutil"
 	"log"
-	"os/exec"
+	// "os/exec"
 
 	"golang.org/x/net/context"
 )
@@ -40,17 +41,22 @@ func (s *Server) Authenticate(ctx context.Context, in *LoginDetails) (*LoginResp
 	// byteValue, _ := ioutil.ReadAll(jsonFile)
 	// ####
 
-	byteValue,err := exec.Command("curl -L http://127.0.0.1:12380/users").Output()
+	resp, err := http.Get("http://127.0.0.1:12380/users")
 	if err != nil {
-        fmt.Printf("%s", err)
-    }
+		// handle err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	// we initialize our Users array
 	var users []Users
 
 	// we unmarshal our byteArray which contains our
 	// jsonFile's content into 'users' which we defined above
-	json.Unmarshal(byteValue, &users)
+	json.Unmarshal(body, &users)
 
 	done := false
 
