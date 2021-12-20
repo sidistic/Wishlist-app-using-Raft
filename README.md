@@ -1,18 +1,30 @@
 # Instructions
 
 ## To Run App
+```bash
+    
+    cd welcome-app/src/go.etcd.io/etcd/contrib/raftexample
+    goreman start
 
     cd welcome-app
+    bash setup.sh
     go run main.go
     go run server.go
 
+```
 # To Run Tests
 
-    cd login
+Must run setup.sh first before running the following tests
+```bash
+    cd welcome-app/login
     go test -v
-    go test -cover
-    go test -coverprofile=coverage.out
-    go tool cover -html=coverage.out
+
+    cd welcome-app/user
+    go test -v
+
+    cd welcome-app/feed
+    go test -v    
+```
 
 
 # Distributed Finaly Project Course Materials

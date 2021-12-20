@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"os"
+	// "os"
+	"net/http"
+	"os/exec"
 
 	"golang.org/x/net/context"
 )
@@ -30,29 +32,23 @@ type Post struct {
 
 func (s *Server) GetFeed(ctx context.Context, in *FeedRequest) (*FeedResponse, error) {
 	log.Printf("Receieved following details from Client: \nusername: %s", in.Username)
-	// Open our jsonFile
-	jsonFile, err := os.Open("data/users.json") //modified temporarily for testing
-
-	// if we os.Open returns an error then handle it
+	resp, err := http.Get("http://127.0.0.1:12380/users")
 	if err != nil {
 		fmt.Println(err)
-	} else {
-		fmt.Println("Successfully Opened users.json")
 	}
-	
+	defer resp.Body.Close()
 
-	// defer the closing of our jsonFile so that we can parse it later on
-	defer jsonFile.Close()
-
-	// read our opened jsonFile as a byte array.
-	byteValue, _ := ioutil.ReadAll(jsonFile)
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	// we initialize our Users array
 	var users []Users
 
 	// we unmarshal our byteArray which contains our
 	// jsonFile's content into 'users' which we defined above
-	json.Unmarshal(byteValue, &users)
+	json.Unmarshal(body, &users)
 
 	followers := map[string]bool{}
 
@@ -74,22 +70,16 @@ func (s *Server) GetFeed(ctx context.Context, in *FeedRequest) (*FeedResponse, e
 
 	// fmt.Println(curruser)
 
-	jsonFile, err = os.Open("data/posts.json") //modified temporarily for testing
-
-	// if we os.Open returns an error then handle it
+	resp, err = http.Get("http://127.0.0.1:12380/posts")
 	if err != nil {
 		fmt.Println(err)
-	} else {
-		fmt.Println("Successfully Opened posts.json")
 	}
-	
+	defer resp.Body.Close()
 
-	// defer the closing of our jsonFile so that we can parse it later on
-	defer jsonFile.Close()
-
-	// read our opened jsonFile as a byte array.
-	byteValue, _ = ioutil.ReadAll(jsonFile)
-
+	body, err = ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println(err)
+	}
 	// we initialize our Users array
 	var posts []Post
 	filterPostIDs := []int32{}
@@ -99,7 +89,7 @@ func (s *Server) GetFeed(ctx context.Context, in *FeedRequest) (*FeedResponse, e
 	filterPostTimestamps := []string{}
 	// we unmarshal our byteArray which contains our
 	// jsonFile's content into 'users' which we defined above
-	json.Unmarshal(byteValue, &posts)
+	json.Unmarshal(body, &posts)
 	fmt.Println(posts)
 
 	for _, p := range posts {
@@ -123,27 +113,24 @@ func (s *Server) GetFeed(ctx context.Context, in *FeedRequest) (*FeedResponse, e
 		Timestamp:   filterPostTimestamps}, nil
 }
 func (s *Server) PostToServer(ctx context.Context, in *PostData) (*PostDataResponse, error) {
-	jsonFile, err := os.Open("data/posts.json") //modified temporarily for testing
-
-	// if we os.Open returns an error then handle it
+	
+	resp, err := http.Get("http://127.0.0.1:12380/posts")
 	if err != nil {
 		fmt.Println(err)
-	} else {
-		fmt.Println("Successfully Opened posts.json")
 	}
-	
+	defer resp.Body.Close()
 
-	// defer the closing of our jsonFile so that we can parse it later on
-
-	// read our opened jsonFile as a byte array.
-	byteValue, _ := ioutil.ReadAll(jsonFile)
-
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println(err)
+	}
 	// we initialize our Users array
 	var posts []Post
-	// we unmarshal our byteArray which contains our
-	// jsonFile's content into 'users' which we defined above
-	json.Unmarshal(byteValue, &posts)
-	jsonFile.Close()
+
+	json.Unmarshal(body, &posts)
+
+
+
 	posts = append(posts, Post{
 		PostID:      int(in.Postid),
 		Title:       in.Title,
@@ -151,13 +138,12 @@ func (s *Server) PostToServer(ctx context.Context, in *PostData) (*PostDataRespo
 		Description: in.Description,
 		Timestamp:   in.Timestamp,
 	})
-	byteValue, err = json.Marshal(posts)
+	byteValue, err := json.Marshal(posts)
 	if err != nil {
 		fmt.Println(err)
 	}
-	err = ioutil.WriteFile("data/posts.json", byteValue, 0644) //modified temporarily for testing
-	if err != nil {
-		log.Fatalf("failed to write to file on server: %v", err)
-	}
+	cmd := exec.Command("curl", "-L", "http://127.0.0.1:12380/posts", "-XPUT", "-d " +string(byteValue) )
+	cmd.Run()
+
 	return &PostDataResponse{Success: true}, nil
 }

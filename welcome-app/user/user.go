@@ -4,9 +4,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
-
+	"net/http"
+	// "log"
+	// "net/url"
 	"golang.org/x/net/context"
+	// "strings"
+	"os/exec"
 )
 
 type User struct {
@@ -24,14 +27,20 @@ func (s *Server) SignUpUser(ctx context.Context, in *SignUpRequest) (*SignUpResp
 		return &SignUpResponse{Success: false}, nil
 	}
 
-	file, err := ioutil.ReadFile("data/users.json") //modified temporarily for testing
+	resp, err := http.Get("http://127.0.0.1:12380/users")
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	users := []User{}
 
-	json.Unmarshal(file, &users)
+	json.Unmarshal(body, &users)
 
 	for _, u := range users {
 		if u.Username == in.Username {
@@ -46,28 +55,38 @@ func (s *Server) SignUpUser(ctx context.Context, in *SignUpRequest) (*SignUpResp
 		Follows:  []string{},
 	})
 
+	// fmt.Println(users)
 	dataBytes, err := json.Marshal(users)
 	if err != nil {
 		fmt.Println(err)
 	}
-	err = ioutil.WriteFile("data/users.json", dataBytes, 0644) //modified temporarily for testing
-	if err != nil {
-		log.Fatalf("SignUpUser: failed to write to file on server: %v", err)
-	}
+	fmt.Println(string(dataBytes))
+
+	cmd := exec.Command("curl", "-L", "http://127.0.0.1:12380/users", "-XPUT", "-d " +string(dataBytes) )
+	cmd.Run()
+
 	return &SignUpResponse{Success: true}, nil
 }
 
 func (s *Server) GetFollowing(ctx context.Context, in *FollowerRequest) (*FollowerResponse, error) {
-	file, err := ioutil.ReadFile("data/users.json") //modified temporarily for testing
+
+	resp, err := http.Get("http://127.0.0.1:12380/users")
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	users := []User{}
+
+	json.Unmarshal(body, &users)
+
 	notFollowed := []string{}
 	Followed := []string{}
-
-	json.Unmarshal(file, &users)
 
 	for _, u := range users {
 		if in.Username == u.Username {
@@ -97,14 +116,20 @@ func CheckIfFollowed(username string, follows []string) bool {
 
 func (s *Server) UpdateFollower(ctx context.Context, in *UpdateFollowersRequest) (*UpdateFollowersResponse, error) {
 
-	file, err := ioutil.ReadFile("data/users.json") //modified temporarily for testing
+	resp, err := http.Get("http://127.0.0.1:12380/users")
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	users := []User{}
 
-	json.Unmarshal(file, &users)
+	json.Unmarshal(body, &users)
 
 	for i, u := range users {
 		if u.Username == in.Username {
@@ -122,13 +147,15 @@ func (s *Server) UpdateFollower(ctx context.Context, in *UpdateFollowersRequest)
 		}
 	}
 
+
 	dataBytes, err := json.Marshal(users)
 	if err != nil {
 		fmt.Println(err)
 	}
-	err = ioutil.WriteFile("data/users.json", dataBytes, 0644) //modified temporarily for testing
-	if err != nil {
-		log.Fatalf("UpdateFollower: failed to write to file on server: %v", err)
-	}
+	fmt.Println(string(dataBytes))
+
+	cmd := exec.Command("curl", "-L", "http://127.0.0.1:12380/users", "-XPUT", "-d " +string(dataBytes) )
+	cmd.Run()
+
 	return &UpdateFollowersResponse{Success: true}, nil
 }

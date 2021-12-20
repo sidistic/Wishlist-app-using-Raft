@@ -24,7 +24,7 @@ type CurrUser struct {
 //Go application entrypoint
 func main() {
 
-	curruser := CurrUser{Username: "vihaha"}
+	curruser := CurrUser{Username: "Guest"}
 	currposts := []feed.Post{}
 
 	http.Handle("/static/",
@@ -182,14 +182,14 @@ func main() {
 
 	})
 
-	http.HandleFunc("/api/feed", func(w http.ResponseWriter, r *http.Request) {
+	// http.HandleFunc("/api/feed", func(w http.ResponseWriter, r *http.Request) {
 
-		templates := template.Must(template.ParseFiles("data/posts.json"))
+	// 	templates := template.Must(template.ParseFiles("data/posts.json"))
 
-		if err := templates.ExecuteTemplate(w, "posts.json", curruser); err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
-	})
+	// 	if err := templates.ExecuteTemplate(w, "posts.json", curruser); err != nil {
+	// 		http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 	}
+	// })
 
 	http.HandleFunc("/add-post", func(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
@@ -264,17 +264,11 @@ func main() {
 		if err != nil {
 			log.Fatalf("Could not UpdateFollower: %s", err)
 		}
-
+		fmt.Println(res.Success)
 		if res.Success {
-			response, err := u.GetFollowing(context.Background(), &user.FollowerRequest{
-				Username: curruser.Username,
-			})
-			if err != nil {
-				log.Fatalf("Could not get following: %s", err)
-			}
-			templates := template.Must(template.ParseFiles("templates/users.html"))
+			templates := template.Must(template.ParseFiles("templates/welcome.html"))
 
-			if err := templates.ExecuteTemplate(w, "users.html", response); err != nil {
+			if err := templates.ExecuteTemplate(w, "welcome.html", curruser); err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 			}
 		} else {
@@ -317,15 +311,9 @@ func main() {
 		}
 
 		if res.Success {
-			response, err := u.GetFollowing(context.Background(), &user.FollowerRequest{
-				Username: curruser.Username,
-			})
-			if err != nil {
-				log.Fatalf("Could not get following: %s", err)
-			}
-			templates := template.Must(template.ParseFiles("templates/users.html"))
+			templates := template.Must(template.ParseFiles("templates/welcome.html"))
 
-			if err := templates.ExecuteTemplate(w, "users.html", response); err != nil {
+			if err := templates.ExecuteTemplate(w, "welcome.html", curruser); err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 			}
 		} else {
@@ -344,14 +332,14 @@ func main() {
 
 	})
 
-	http.HandleFunc("/api/users", func(w http.ResponseWriter, r *http.Request) {
+	// http.HandleFunc("/api/users", func(w http.ResponseWriter, r *http.Request) {
 
-		templates := template.Must(template.ParseFiles("data/users.json"))
+	// 	templates := template.Must(template.ParseFiles("data/users.json"))
 
-		if err := templates.ExecuteTemplate(w, "users.json", curruser); err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
-	})
+	// 	if err := templates.ExecuteTemplate(w, "users.json", curruser); err != nil {
+	// 		http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 	}
+	// })
 
 	http.HandleFunc("/signout", func(w http.ResponseWriter, r *http.Request) {
 
