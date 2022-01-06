@@ -1,0 +1,8 @@
+# Ignore Mac system files
+.DS_store
+
+# Ignore .wal files 
+*.wal
+
+# Ignore whatever is generated in /Users/viha/code/ds_final/welcome-app/src/go.etcd.io/etcd/contrib/raftexample
+welcome-app/src/

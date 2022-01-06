@@ -1,4 +1,13 @@
-# 
+# Christmas Wishlist WebApp
+
+An academic project for Distributed Systems (CS-GY-9223) at NYU Tandon with Prof Gustavo Sandoval
+
+Objective: To develop a distributed and reliable backend in support of a simple social media application. 
+
+Our application is a wishlist tool where users can login, create posts, follow other users, and view posts of the people they follow. The webserver, written in Go, interacts with the client using gRPCs. CoreOS, an open source Raft implementation (https://github.com/etcd-io/etcd/tree/main/raft), is used in the backend to provide consensus for the raft nodes that are spun up locally. 
+
+
+Please see the Project Prompt for more details.
 
 ## Instructions To Run App
 ```bash
